@@ -19,14 +19,13 @@ class ShowWorkersList extends StatefulWidget {
 class _ShowWorkersListState extends State<ShowWorkersList> {
   DB database = DB.db;
   int count = 0;
-  List<Worker> rentCarsList;
-  bool switchVal = false;
+  List<Worker> workersList;
 
   @override
   Widget build(BuildContext context) {
     var themeController = ThemeController.of(context);
-    if (rentCarsList == null) {
-      rentCarsList = [];
+    if (workersList == null) {
+      workersList = [];
       updateListView();
     }
     return Scaffold(
@@ -49,6 +48,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   Worker worker = snapshot.data[index];
+                  bool workerIsBusy = (worker.isBusy == 1) ? true : false;
                   return Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 20),
@@ -70,12 +70,12 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                         const SizedBox(height: 5),
                         Text('Date Time :  ${worker.dateTime}'),
                         const SizedBox(height: 5),
-                        Text('is Busy :  ${worker.isBusy}'),
+                        Text((workerIsBusy) ? "He is Busy" : "He is Not Busy"),
                         Switch(
-                          value: switchVal,
+                          value: workerIsBusy,
                           onChanged: (value) {
                             setState(() {
-                              switchVal = value;
+                              workerIsBusy = value;
                             });
                             DB.db.updateWorkerData(
                                 Worker(
@@ -83,15 +83,13 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                                   name: worker.name,
                                   dateTime: worker.dateTime,
                                   phoneNum: worker.phoneNum,
-                                  isBusy: (switchVal) ? 1 : 0,
+                                  isBusy: (workerIsBusy) ? 1 : 0,
                                 ),
                                 widget.tableName);
                           },
                         ),
                         const SizedBox(height: 5),
-/*----------------------------------------------------------------------------------------------------*/
-/*---------------------------------------  Edit & Delete Part  ---------------------------------------*/
-/*----------------------------------------------------------------------------------------------------*/
+                        // Edit button & delete Button
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -106,20 +104,20 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                                           builder: (context) =>
                                               EditWorkerDataPage(
                                                   id: this
-                                                      .rentCarsList[index]
+                                                      .workersList[index]
                                                       .id,
                                                   name: this
-                                                      .rentCarsList[index]
+                                                      .workersList[index]
                                                       .name,
                                                   phoneNum: this
-                                                      .rentCarsList[index]
+                                                      .workersList[index]
                                                       .phoneNum,
                                                   dateTime: this
-                                                      .rentCarsList[index]
+                                                      .workersList[index]
                                                       .dateTime,
                                                   tableName: widget.tableName,
                                                   isBusy: this
-                                                      .rentCarsList[index]
+                                                      .workersList[index]
                                                       .isBusy)));
                                   if (result == true) {
                                     updateListView();
@@ -136,7 +134,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   database.deleteWorkerData(
-                                      this.rentCarsList[index].id,
+                                      this.workersList[index].id,
                                       widget.tableName);
                                   updateListView();
                                 },
@@ -156,14 +154,13 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
               );
             }
           }),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).accentColor,
-        child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text("Add Data"),
         onPressed: () async {
-          bool result = await Navigator.of(context).push(MaterialPageRoute(
+          bool backResult = await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
                   AddWorkerDataPage(tableName: widget.tableName)));
-          if (result == true) {
+          if (backResult == true) {
             updateListView();
             // await notelist();
           }
@@ -175,11 +172,11 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
   updateListView() {
     final Future<Database> futureDb = database.initDB();
     futureDb.then((value) {
-      Future<List<Worker>> noteListFuture =
+      Future<List<Worker>> workersListFuture =
           database.getAllWorkerData(widget.tableName);
-      noteListFuture.then((value) {
+      workersListFuture.then((value) {
         setState(() {
-          this.rentCarsList = value;
+          this.workersList = value;
           this.count = value.length;
         });
       });

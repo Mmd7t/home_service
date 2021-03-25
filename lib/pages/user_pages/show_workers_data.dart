@@ -3,6 +3,7 @@ import 'package:home_service/inherited_widgets/theme_changer.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
 import 'package:home_service/pages/settings/settings.dart';
+import 'package:home_service/pages/user_pages/user_selected_worker_page.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../constants.dart';
 
@@ -49,33 +50,21 @@ class _ShowWorkersDataToUserState extends State<ShowWorkersDataToUser> {
                 itemBuilder: (context, index) {
                   Worker worker = snapshot.data[index];
                   return InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      margin: const EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => UserSelectedWorkerPage(
+                                tableName: widget.tableName,
+                                index: index,
+                              )));
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(35),
-                            bottomRight: Radius.circular(35)),
-                        color: (themeController.currentTheme == 'dark')
-                            ? c1
-                            : Theme.of(context).primaryColor.withOpacity(0.3),
+                            topLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30)),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Name ::    ${worker.name}'),
-                          const SizedBox(height: 5),
-                          Text('Price in Day ::    ${worker.phoneNum}'),
-                          const SizedBox(height: 5),
-                          Text('Price in Month ::    ${worker.dateTime}'),
-                          const SizedBox(height: 5),
-                          Text('is Busy ::    ${worker.isBusy}'),
-                          const SizedBox(height: 5),
-/*----------------------------------------------------------------------------------------------------*/
-/*---------------------------------------  Edit & Delete Part  ---------------------------------------*/
-/*----------------------------------------------------------------------------------------------------*/
-                        ],
+                      child: ListTile(
+                        title: Text("Name : ${worker.name}"),
                       ),
                     ),
                   );

@@ -29,47 +29,12 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add Data",
+          "Add Worker",
           style: Theme.of(context).textTheme.headline5.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).primaryColor,
               ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: Theme.of(context).accentColor,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        actions: [
-          IconButton(
-            color: Theme.of(context).accentColor,
-            icon: const Icon(Icons.cancel_outlined),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          IconButton(
-            color: Colors.blueAccent,
-            icon: const Icon(Icons.check),
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                await DB.db.insertWorkerData(
-                    Worker(
-                      name: nameCon.text,
-                      phoneNum: phoneNumCon.text,
-                      dateTime: dateTimeCon.text,
-                      isBusy: 0,
-                    ),
-                    widget.tableName);
-                Navigator.pop(context, true);
-              }
-            },
-          ),
-        ],
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -101,6 +66,32 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
                   CommonTextFormField(
                     controller: dateTimeCon,
                     hintText: 'Date Time',
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Exit"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            await DB.db.insertWorkerData(
+                                Worker(
+                                  name: nameCon.text,
+                                  phoneNum: phoneNumCon.text,
+                                  dateTime: dateTimeCon.text,
+                                  isBusy: 0,
+                                ),
+                                widget.tableName);
+                            Navigator.pop(context, true);
+                          }
+                        },
+                        child: Text("Save"),
+                      ),
+                    ],
                   ),
                 ],
               ),
