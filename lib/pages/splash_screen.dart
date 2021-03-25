@@ -25,11 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Text(
-          'Home\nService',
+          'Home Service',
           style: Theme.of(context).textTheme.headline4.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).primaryColor,
-                height: 2,
               ),
           textAlign: TextAlign.center,
         ),

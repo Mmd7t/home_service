@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:home_service/inherited_widgets/theme_changer.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
-import 'package:home_service/widgets/common_appbar.dart';
+import 'package:home_service/pages/settings/settings.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../constants.dart';
 
@@ -29,7 +29,17 @@ class _ShowWorkersDataToUserState extends State<ShowWorkersDataToUser> {
       updateListView();
     }
     return Scaffold(
-      appBar: const GlobalAppBar(title: 'Workers List'),
+      appBar: AppBar(
+        title: Text("Workers List"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Settings.routeName);
+            },
+          )
+        ],
+      ),
       body: FutureBuilder(
           future: database.getAllWorkerData(widget.tableName),
           builder: (context, snapshot) {
@@ -41,11 +51,12 @@ class _ShowWorkersDataToUserState extends State<ShowWorkersDataToUser> {
                   return InkWell(
                     onTap: () {},
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 20),
+                      padding: const EdgeInsets.all(20),
                       margin: const EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(35),
+                            bottomRight: Radius.circular(35)),
                         color: (themeController.currentTheme == 'dark')
                             ? c1
                             : Theme.of(context).primaryColor.withOpacity(0.3),
@@ -58,6 +69,8 @@ class _ShowWorkersDataToUserState extends State<ShowWorkersDataToUser> {
                           Text('Price in Day ::    ${worker.phoneNum}'),
                           const SizedBox(height: 5),
                           Text('Price in Month ::    ${worker.dateTime}'),
+                          const SizedBox(height: 5),
+                          Text('is Busy ::    ${worker.isBusy}'),
                           const SizedBox(height: 5),
 /*----------------------------------------------------------------------------------------------------*/
 /*---------------------------------------  Edit & Delete Part  ---------------------------------------*/

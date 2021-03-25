@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home_service/components/common_textfield.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
-import 'package:home_service/widgets/global_textfield.dart';
 
 class EditWorkerDataPage extends StatefulWidget {
   final int id;
@@ -94,7 +94,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
               key: _formKey,
               child: Column(
                 children: [
-                  GlobalTextFormField(
+                  CommonTextFormField(
                     controller: nameController,
                     hintText: 'Name',
                   ),
@@ -102,7 +102,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
 /*--------------------------------------------------------------------------------------------*/
 /*----------------------------------  PriceInMonth Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  GlobalTextFormField(
+                  CommonTextFormField(
                     controller: phoneNumController,
                     hintText: 'Phone Number',
                   ),
@@ -110,7 +110,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
 /*--------------------------------------------------------------------------------------------*/
 /*-----------------------------------  PhoneNumber Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  GlobalTextFormField(
+                  CommonTextFormField(
                     controller: dateTimeController,
                     hintText: 'Date Time',
                   ),

@@ -1,7 +1,6 @@
 import 'package:home_service/pages/home.dart';
 import 'package:home_service/pages/settings/settings.dart';
 import 'package:home_service/pages/worker_pages/workers_home.dart';
-import 'package:home_service/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'inherited_widgets/theme_changer.dart';
@@ -53,10 +52,14 @@ class MyApp extends StatelessWidget {
   ThemeData _buildCurrentTheme() {
     switch (themeController.currentTheme) {
       case "dark":
-        return darkTheme;
+        return ThemeData.dark().copyWith(
+          primaryColor: Colors.redAccent,
+        );
       case "light":
       default:
-        return lightTheme;
+        return ThemeData.light().copyWith(
+          primaryColor: Colors.redAccent,
+        );
     }
   }
 }

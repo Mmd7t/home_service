@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:home_service/components/common_container.dart';
 import 'package:home_service/pages/user_pages/user_home_page.dart';
 import 'package:home_service/pages/worker_pages/workers_home.dart';
-import 'package:home_service/widgets/global_box.dart';
-import 'package:home_service/widgets/common_appbar.dart';
+
+import 'settings/settings.dart';
 
 class Home extends StatelessWidget {
   static const String routeName = 'home';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GlobalAppBar(isHome: true, title: 'Home Services'),
+      appBar: AppBar(
+        title: Text("Home Services"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Settings.routeName);
+            },
+          )
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GlobalBox(
+            CommonContainer(
               title: "Worker",
               onTap: () {
                 Navigator.of(context).pushNamed(WorkersHomePage.routeName);
               },
             ),
             const SizedBox(height: 10),
-            GlobalBox(
+            CommonContainer(
               title: "User",
               onTap: () {
                 Navigator.of(context).pushNamed(UserHomePage.routeName);

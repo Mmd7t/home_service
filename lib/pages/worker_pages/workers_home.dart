@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:home_service/components/common_container.dart';
 import 'package:home_service/constants.dart';
+import 'package:home_service/pages/settings/settings.dart';
 import 'package:home_service/pages/worker_pages/show_workers_list.dart';
-import 'package:home_service/widgets/global_box.dart';
-import 'package:home_service/widgets/common_appbar.dart';
 
 class WorkersHomePage extends StatelessWidget {
   static const String routeName = 'workersHomePage';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GlobalAppBar(isHome: true, title: 'Workers Home'),
+      appBar: AppBar(
+        title: Text("Workers Home"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Settings.routeName);
+            },
+          )
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GlobalBox(
+            CommonContainer(
               title: "Kahraba2y",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -24,7 +34,7 @@ class WorkersHomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-            GlobalBox(
+            CommonContainer(
               title: "Sabbak",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -33,7 +43,7 @@ class WorkersHomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-            GlobalBox(
+            CommonContainer(
               title: "Naggar",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -42,7 +52,7 @@ class WorkersHomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-            GlobalBox(
+            CommonContainer(
               title: "Delivery",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(

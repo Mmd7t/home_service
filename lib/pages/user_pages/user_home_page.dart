@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home_service/components/common_container.dart';
+import 'package:home_service/pages/settings/settings.dart';
 import 'package:home_service/pages/user_pages/show_workers_data.dart';
-import 'package:home_service/widgets/common_appbar.dart';
-import 'package:home_service/widgets/global_box.dart';
 
 import '../../constants.dart';
 
@@ -10,12 +10,22 @@ class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GlobalAppBar(title: "User Home"),
+      appBar: AppBar(
+        title: Text("User Home"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Settings.routeName);
+            },
+          )
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GlobalBox(
+            CommonContainer(
               title: "Kahraba2y",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -25,7 +35,7 @@ class UserHomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-            GlobalBox(
+            CommonContainer(
               title: "Sabbak",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -35,7 +45,7 @@ class UserHomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-            GlobalBox(
+            CommonContainer(
               title: "Naggar",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -45,7 +55,7 @@ class UserHomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-            GlobalBox(
+            CommonContainer(
               title: "Delivery",
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(

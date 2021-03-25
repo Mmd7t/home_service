@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:home_service/inherited_widgets/theme_changer.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
-import 'package:home_service/widgets/common_appbar.dart';
+import 'package:home_service/pages/settings/settings.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../constants.dart';
 import 'add_worker_data.dart';
@@ -20,6 +20,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
   DB database = DB.db;
   int count = 0;
   List<Worker> rentCarsList;
+  bool switchVal = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,17 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
       updateListView();
     }
     return Scaffold(
-      appBar: const GlobalAppBar(title: 'Workers List'),
+      appBar: AppBar(
+        title: Text("Workers List"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Settings.routeName);
+            },
+          )
+        ],
+      ),
       body: FutureBuilder(
           future: database.getAllWorkerData(widget.tableName),
           builder: (context, snapshot) {
@@ -40,10 +51,12 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                   Worker worker = snapshot.data[index];
                   return Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 20),
+                        horizontal: 15, vertical: 20),
                     margin: const EdgeInsets.all(5.0),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
                       color: (themeController.currentTheme == 'dark')
                           ? c1
                           : Theme.of(context).primaryColor.withOpacity(0.3),
@@ -57,7 +70,24 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                         const SizedBox(height: 5),
                         Text('Date Time :  ${worker.dateTime}'),
                         const SizedBox(height: 5),
-                        Text('Date Time :  ${worker.isBusy}'),
+                        Text('is Busy :  ${worker.isBusy}'),
+                        Switch(
+                          value: switchVal,
+                          onChanged: (value) {
+                            setState(() {
+                              switchVal = value;
+                            });
+                            DB.db.updateWorkerData(
+                                Worker(
+                                  id: worker.id,
+                                  name: worker.name,
+                                  dateTime: worker.dateTime,
+                                  phoneNum: worker.phoneNum,
+                                  isBusy: (switchVal) ? 1 : 0,
+                                ),
+                                widget.tableName);
+                          },
+                        ),
                         const SizedBox(height: 5),
 /*----------------------------------------------------------------------------------------------------*/
 /*---------------------------------------  Edit & Delete Part  ---------------------------------------*/
@@ -65,42 +95,53 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () async {
-                                bool result = await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            EditWorkerDataPage(
-                                              id: this.rentCarsList[index].id,
-                                              name:
-                                                  this.rentCarsList[index].name,
-                                              phoneNum: this
-                                                  .rentCarsList[index]
-                                                  .phoneNum,
-                                              dateTime: this
-                                                  .rentCarsList[index]
-                                                  .dateTime,
-                                              tableName: widget.tableName,
-                                              isBusy: this
-                                                  .rentCarsList[index]
-                                                  .isBusy
-                                            )));
-                                if (result == true) {
-                                  updateListView();
-                                }
-                              },
-                              color: Theme.of(context).accentColor,
+                            CircleAvatar(
+                              backgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              child: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () async {
+                                  bool result = await Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditWorkerDataPage(
+                                                  id: this
+                                                      .rentCarsList[index]
+                                                      .id,
+                                                  name: this
+                                                      .rentCarsList[index]
+                                                      .name,
+                                                  phoneNum: this
+                                                      .rentCarsList[index]
+                                                      .phoneNum,
+                                                  dateTime: this
+                                                      .rentCarsList[index]
+                                                      .dateTime,
+                                                  tableName: widget.tableName,
+                                                  isBusy: this
+                                                      .rentCarsList[index]
+                                                      .isBusy)));
+                                  if (result == true) {
+                                    updateListView();
+                                  }
+                                },
+                                color: Theme.of(context).accentColor,
+                              ),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                database.deleteWorkerData(
-                                    this.rentCarsList[index].id,
-                                    widget.tableName);
-                                updateListView();
-                              },
-                              color: Theme.of(context).primaryColor,
+                            const SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              child: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  database.deleteWorkerData(
+                                      this.rentCarsList[index].id,
+                                      widget.tableName);
+                                  updateListView();
+                                },
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
                           ],
                         ),

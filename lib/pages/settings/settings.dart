@@ -15,9 +15,9 @@ class Settings extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FloatingActionButton.extended(
-                backgroundColor: Colors.blue,
                 label: Text('Light Theme'),
                 onPressed: () {
                   themeController.setTheme('light');
@@ -25,7 +25,6 @@ class Settings extends StatelessWidget {
               ),
               SizedBox(height: 10),
               FloatingActionButton.extended(
-                backgroundColor: Colors.blue,
                 label: Text(
                   'Dark Theme',
                   style: TextStyle(color: Colors.black),

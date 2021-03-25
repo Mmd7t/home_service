@@ -30,7 +30,8 @@ class DB {
               id INTEGER PRIMARY KEY,
               name TEXT,
               phoneNum TEXT,
-              dateTime TEXT)
+              dateTime TEXT,
+              isBusy INTEGER)
             ''');
 /*------------------------------------  Sabbak DB Table  ------------------------------------*/
         await db.execute('''
@@ -38,7 +39,8 @@ class DB {
               id INTEGER PRIMARY KEY,
               name TEXT,
               phoneNum TEXT,
-              dateTime TEXT)
+              dateTime TEXT
+               isBusy INTEGER)
             ''');
 /*------------------------------------  Naggar DB Table  ------------------------------------*/
         await db.execute('''
@@ -46,7 +48,8 @@ class DB {
              id INTEGER PRIMARY KEY,
               name TEXT,
               phoneNum TEXT,
-              dateTime TEXT)
+              dateTime TEXT
+               isBusy INTEGER)
             ''');
 /*------------------------------------  Delivery DB Table  ------------------------------------*/
         await db.execute('''
@@ -54,7 +57,8 @@ class DB {
              id INTEGER PRIMARY KEY,
               name TEXT,
               phoneNum TEXT,
-              dateTime TEXT)
+              dateTime TEXT
+               isBusy INTEGER)
             ''');
 /*------------------------------------  Delivery DB Table  ------------------------------------*/
         await db.execute('''

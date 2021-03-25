@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GlobalBox extends StatelessWidget {
-  const GlobalBox({
+class CommonContainer extends StatelessWidget {
+  const CommonContainer({
     Key key,
     this.title,
     this.onTap,
@@ -12,7 +12,8 @@ class GlobalBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = BorderRadius.circular(20);
+    final radius = BorderRadius.only(
+        topLeft: Radius.circular(50), bottomRight: Radius.circular(50));
 
     return InkWell(
       borderRadius: radius,

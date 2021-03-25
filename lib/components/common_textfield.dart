@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class GlobalTextFormField extends StatelessWidget {
+class CommonTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
 
-  const GlobalTextFormField({
+  const CommonTextFormField({
     Key key,
     @required this.controller,
     @required this.hintText,
@@ -24,7 +24,7 @@ class GlobalTextFormField extends StatelessWidget {
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return 'fill this label please';
+          return 'please fill in this label';
         }
         return null;
       },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home_service/components/common_textfield.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
-import 'package:home_service/widgets/global_textfield.dart';
 
 class AddWorkerDataPage extends StatefulWidget {
   final String tableName;
@@ -82,7 +82,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
 /*--------------------------------------------------------------------------------------------*/
 /*-----------------------------------  PriceInDay Input --------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  GlobalTextFormField(
+                  CommonTextFormField(
                     controller: nameCon,
                     hintText: 'Name',
                   ),
@@ -90,7 +90,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
 /*--------------------------------------------------------------------------------------------*/
 /*----------------------------------  PriceInMonth Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  GlobalTextFormField(
+                  CommonTextFormField(
                     controller: phoneNumCon,
                     hintText: 'Phone Number',
                   ),
@@ -98,7 +98,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
 /*--------------------------------------------------------------------------------------------*/
 /*-----------------------------------  PhoneNumber Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  GlobalTextFormField(
+                  CommonTextFormField(
                     controller: dateTimeCon,
                     hintText: 'Date Time',
                   ),
