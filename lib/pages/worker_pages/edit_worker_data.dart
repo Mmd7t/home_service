@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/components/common_textfield.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
 
@@ -58,25 +57,67 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
               key: _formKey,
               child: Column(
                 children: [
-                  CommonTextFormField(
+                  TextFormField(
                     controller: nameController,
-                    hintText: 'Name',
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 18),
+                      filled: true,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.2),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please fill in this label';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
 /*--------------------------------------------------------------------------------------------*/
 /*----------------------------------  PriceInMonth Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  CommonTextFormField(
+                  TextFormField(
                     controller: phoneNumController,
-                    hintText: 'Phone Number',
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Phone Number',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 18),
+                      filled: true,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.2),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please fill in this label';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
 /*--------------------------------------------------------------------------------------------*/
 /*-----------------------------------  PhoneNumber Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  CommonTextFormField(
+                  TextFormField(
                     controller: dateTimeController,
-                    hintText: 'Date Time',
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Date Time',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 18),
+                      filled: true,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.2),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please fill in this label';
+                      }
+                      return null;
+                    },
                   ),
                   Row(
                     children: [
@@ -89,7 +130,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            await DB.db.updateWorkerData(
+                            await DB.db.updateData(
                                 Worker(
                                   id: widget.id,
                                   name: nameController.text,

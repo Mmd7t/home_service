@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_service/components/common_container.dart';
-import 'package:home_service/pages/settings/settings.dart';
+import 'package:home_service/pages/settings.dart';
 import 'package:home_service/pages/user_pages/show_workers_data.dart';
 
 import '../../constants.dart';

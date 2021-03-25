@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/components/common_textfield.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
 
@@ -47,27 +46,70 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
 /*--------------------------------------------------------------------------------------------*/
 /*-----------------------------------  PriceInDay Input --------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  CommonTextFormField(
+                  TextFormField(
                     controller: nameCon,
-                    hintText: 'Name',
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 18),
+                      filled: true,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.2),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please fill in this label';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
 /*--------------------------------------------------------------------------------------------*/
 /*----------------------------------  PriceInMonth Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  CommonTextFormField(
+                  TextFormField(
                     controller: phoneNumCon,
-                    hintText: 'Phone Number',
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Phone Number',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 18),
+                      filled: true,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.2),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please fill in this label';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
 /*--------------------------------------------------------------------------------------------*/
 /*-----------------------------------  PhoneNumber Input -------------------------------------*/
 /*--------------------------------------------------------------------------------------------*/
-                  CommonTextFormField(
+                  TextFormField(
                     controller: dateTimeCon,
-                    hintText: 'Date Time',
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Date Time',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 18),
+                      filled: true,
+                      fillColor:
+                          Theme.of(context).primaryColor.withOpacity(0.2),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please fill in this label';
+                      }
+                      return null;
+                    },
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
                         onPressed: () {
@@ -78,7 +120,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            await DB.db.insertWorkerData(
+                            await DB.db.insertData(
                                 Worker(
                                   name: nameCon.text,
                                   phoneNum: phoneNumCon.text,

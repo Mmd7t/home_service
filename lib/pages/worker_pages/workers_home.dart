@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_service/components/common_container.dart';
 import 'package:home_service/constants.dart';
-import 'package:home_service/pages/settings/settings.dart';
+import 'package:home_service/pages/settings.dart';
 import 'package:home_service/pages/worker_pages/show_workers_list.dart';
 
 class WorkersHomePage extends StatelessWidget {

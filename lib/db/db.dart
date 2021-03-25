@@ -3,6 +3,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../constants.dart';
+import '../constants.dart';
+import '../models/user.dart';
 
 class DB {
   DB._();
@@ -74,7 +76,7 @@ class DB {
 
   /*-----------------------  Insert into Rent DB Table ---------------------------*/
 
-  insertWorkerData(Worker data, tableName) async {
+  insertData(data, tableName) async {
     final db = await database;
     var res = await db.insert(tableName, data.toMap());
     return res;
@@ -90,9 +92,17 @@ class DB {
     return list;
   }
 
+  Future<List<User>> getAllUserData() async {
+    final db = await database;
+    var res = await db.query(userTable, limit: 1);
+    List<User> list =
+        res.isNotEmpty ? res.map((c) => User.fromMap(c)).toList() : [];
+    return list;
+  }
+
   /*-----------------------  Update Object in Rent DB Table  ---------------------------*/
 
-  updateWorkerData(Worker data, tableName) async {
+  updateData(data, tableName) async {
     final db = await database;
     var res = await db
         .update(tableName, data.toMap(), where: "id = ?", whereArgs: [data.id]);
@@ -101,7 +111,7 @@ class DB {
 
   /*-----------------------  Delete Object from Rent DB Table  ---------------------------*/
 
-  deleteWorkerData(int id, tableName) async {
+  deleteData(int id, tableName) async {
     final db = await database;
     db.delete(tableName, where: "id = ?", whereArgs: [id]);
   }

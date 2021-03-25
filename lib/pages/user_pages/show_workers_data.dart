@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/inherited_widgets/theme_changer.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
-import 'package:home_service/pages/settings/settings.dart';
+import 'package:home_service/pages/settings.dart';
 import 'package:home_service/pages/user_pages/user_selected_worker_page.dart';
 import 'package:sqflite/sqflite.dart';
-import '../../constants.dart';
 
 class ShowWorkersDataToUser extends StatefulWidget {
   final String tableName;
@@ -23,8 +21,6 @@ class _ShowWorkersDataToUserState extends State<ShowWorkersDataToUser> {
 
   @override
   Widget build(BuildContext context) {
-    var themeController = ThemeController.of(context);
-
     if (rentCarsList == null) {
       rentCarsList = [];
       updateListView();

@@ -3,7 +3,7 @@ import 'package:home_service/components/common_container.dart';
 import 'package:home_service/pages/user_pages/user_home_page.dart';
 import 'package:home_service/pages/worker_pages/workers_home.dart';
 
-import 'settings/settings.dart';
+import 'settings.dart';
 
 class Home extends StatelessWidget {
   static const String routeName = 'home';

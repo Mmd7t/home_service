@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_service/db/db.dart';
 import 'package:home_service/models/worker.dart';
-import 'package:home_service/pages/settings/settings.dart';
+import 'package:home_service/pages/settings.dart';
 
 class UserSelectedWorkerPage extends StatelessWidget {
   final String tableName;

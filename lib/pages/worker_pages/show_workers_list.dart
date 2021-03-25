@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/inherited_widgets/theme_changer.dart';
 import 'package:home_service/models/worker.dart';
 import 'package:home_service/db/db.dart';
-import 'package:home_service/pages/settings/settings.dart';
+import 'package:home_service/pages/settings.dart';
 import 'package:sqflite/sqflite.dart';
-import '../../constants.dart';
+import '../../models/worker.dart';
 import 'add_worker_data.dart';
 import 'edit_worker_data.dart';
 
@@ -23,7 +22,6 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
 
   @override
   Widget build(BuildContext context) {
-    var themeController = ThemeController.of(context);
     if (workersList == null) {
       workersList = [];
       updateListView();
@@ -57,9 +55,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30)),
-                      color: (themeController.currentTheme == 'dark')
-                          ? c1
-                          : Theme.of(context).primaryColor.withOpacity(0.3),
+                      color: Theme.of(context).primaryColor.withOpacity(0.3),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +73,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                             setState(() {
                               workerIsBusy = value;
                             });
-                            DB.db.updateWorkerData(
+                            DB.db.updateData(
                                 Worker(
                                   id: worker.id,
                                   name: worker.name,
@@ -133,7 +129,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                               child: IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
-                                  database.deleteWorkerData(
+                                  database.deleteData(
                                       this.workersList[index].id,
                                       widget.tableName);
                                   updateListView();
