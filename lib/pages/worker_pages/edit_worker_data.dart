@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_service/models/worker.dart';
-import 'package:home_service/db/db.dart';
+import 'package:home_service/database.dart';
 
 class EditWorkerDataPage extends StatefulWidget {
   final int id;
@@ -24,9 +24,9 @@ class EditWorkerDataPage extends StatefulWidget {
 }
 
 class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController dateTimeController = TextEditingController();
-  TextEditingController phoneNumController = TextEditingController();
+  var nameController = TextEditingController();
+  var dateTimeController = TextEditingController();
+  var phoneNumController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
 
   @override
@@ -40,15 +40,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Edit Worker",
-          style: Theme.of(context).textTheme.headline5.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-        ),
-      ),
+      appBar: AppBar(title: Text("Edit Worker")),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -57,6 +49,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
               key: _formKey,
               child: Column(
                 children: [
+// name text field
                   TextFormField(
                     controller: nameController,
                     textInputAction: TextInputAction.next,
@@ -76,9 +69,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
                     },
                   ),
                   const SizedBox(height: 10),
-/*--------------------------------------------------------------------------------------------*/
-/*----------------------------------  PriceInMonth Input -------------------------------------*/
-/*--------------------------------------------------------------------------------------------*/
+// phone Number text field
                   TextFormField(
                     controller: phoneNumController,
                     textInputAction: TextInputAction.next,
@@ -98,9 +89,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
                     },
                   ),
                   const SizedBox(height: 10),
-/*--------------------------------------------------------------------------------------------*/
-/*-----------------------------------  PhoneNumber Input -------------------------------------*/
-/*--------------------------------------------------------------------------------------------*/
+// Date Time text field
                   TextFormField(
                     controller: dateTimeController,
                     textInputAction: TextInputAction.next,
@@ -119,6 +108,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
                       return null;
                     },
                   ),
+// exit button & save button
                   Row(
                     children: [
                       ElevatedButton(
@@ -130,7 +120,7 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            await DB.db.updateData(
+                            await MyDatabase.db.updateData(
                                 Worker(
                                   id: widget.id,
                                   name: nameController.text,

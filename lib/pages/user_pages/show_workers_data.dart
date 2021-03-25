@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_service/models/worker.dart';
-import 'package:home_service/db/db.dart';
-import 'package:home_service/pages/settings.dart';
+import 'package:home_service/database.dart';
 import 'package:home_service/pages/user_pages/user_selected_worker_page.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,28 +14,18 @@ class ShowWorkersDataToUser extends StatefulWidget {
 }
 
 class _ShowWorkersDataToUserState extends State<ShowWorkersDataToUser> {
-  DB database = DB.db;
+  MyDatabase database = MyDatabase.db;
   int count = 0;
-  List<Worker> rentCarsList;
+  List<Worker> workersList;
 
   @override
   Widget build(BuildContext context) {
-    if (rentCarsList == null) {
-      rentCarsList = [];
-      updateListView();
+    if (workersList == null) {
+      workersList = [];
+      updateContent();
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Workers List"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Settings.routeName);
-            },
-          )
-        ],
-      ),
+      appBar: AppBar(title: Text("Workers List")),
       body: FutureBuilder(
           future: database.getAllWorkerData(widget.tableName),
           builder: (context, snapshot) {
@@ -75,14 +64,14 @@ class _ShowWorkersDataToUserState extends State<ShowWorkersDataToUser> {
     );
   }
 
-  updateListView() {
+  updateContent() {
     final Future<Database> futureDb = database.initDB();
     futureDb.then((value) {
-      Future<List<Worker>> noteListFuture =
+      Future<List<Worker>> workersListFuture =
           database.getAllWorkerData(widget.tableName);
-      noteListFuture.then((value) {
+      workersListFuture.then((value) {
         setState(() {
-          this.rentCarsList = value;
+          this.workersList = value;
           this.count = value.length;
         });
       });

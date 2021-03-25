@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/db/db.dart';
+import 'package:home_service/database.dart';
 import 'package:home_service/models/worker.dart';
-import 'package:home_service/pages/settings.dart';
 
 class UserSelectedWorkerPage extends StatelessWidget {
   final String tableName;
@@ -12,20 +11,10 @@ class UserSelectedWorkerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("User Home"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Settings.routeName);
-            },
-          )
-        ],
-      ),
+      appBar: AppBar(title: Text("User Home")),
       body: Center(
         child: FutureBuilder(
-          future: DB.db.getAllWorkerData(tableName),
+          future: MyDatabase.db.getAllWorkerData(tableName),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return CircularProgressIndicator();

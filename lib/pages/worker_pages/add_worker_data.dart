@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_service/models/worker.dart';
-import 'package:home_service/db/db.dart';
+import 'package:home_service/database.dart';
 
 class AddWorkerDataPage extends StatefulWidget {
   final String tableName;
@@ -26,15 +26,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Add Worker",
-          style: Theme.of(context).textTheme.headline5.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-        ),
-      ),
+      appBar: AppBar(title: Text("Add Worker")),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -43,9 +35,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
               key: _formKey,
               child: Column(
                 children: [
-/*--------------------------------------------------------------------------------------------*/
-/*-----------------------------------  PriceInDay Input --------------------------------------*/
-/*--------------------------------------------------------------------------------------------*/
+// Name text field
                   TextFormField(
                     controller: nameCon,
                     textInputAction: TextInputAction.next,
@@ -65,9 +55,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
                     },
                   ),
                   const SizedBox(height: 10),
-/*--------------------------------------------------------------------------------------------*/
-/*----------------------------------  PriceInMonth Input -------------------------------------*/
-/*--------------------------------------------------------------------------------------------*/
+// phone Number text field
                   TextFormField(
                     controller: phoneNumCon,
                     textInputAction: TextInputAction.next,
@@ -87,9 +75,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
                     },
                   ),
                   const SizedBox(height: 10),
-/*--------------------------------------------------------------------------------------------*/
-/*-----------------------------------  PhoneNumber Input -------------------------------------*/
-/*--------------------------------------------------------------------------------------------*/
+// Date Time text field
                   TextFormField(
                     controller: dateTimeCon,
                     textInputAction: TextInputAction.next,
@@ -108,6 +94,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
                       return null;
                     },
                   ),
+// exit button & save button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -120,7 +107,7 @@ class _AddWorkerDataPageState extends State<AddWorkerDataPage> {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            await DB.db.insertData(
+                            await MyDatabase.db.insertData(
                                 Worker(
                                   name: nameCon.text,
                                   phoneNum: phoneNumCon.text,

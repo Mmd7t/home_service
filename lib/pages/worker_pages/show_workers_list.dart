@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_service/models/worker.dart';
-import 'package:home_service/db/db.dart';
-import 'package:home_service/pages/settings.dart';
+import 'package:home_service/database.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../models/worker.dart';
 import 'add_worker_data.dart';
@@ -16,7 +15,7 @@ class ShowWorkersList extends StatefulWidget {
 }
 
 class _ShowWorkersListState extends State<ShowWorkersList> {
-  DB database = DB.db;
+  MyDatabase database = MyDatabase.db;
   int count = 0;
   List<Worker> workersList;
 
@@ -24,20 +23,10 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
   Widget build(BuildContext context) {
     if (workersList == null) {
       workersList = [];
-      updateListView();
+      updateContent();
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Workers List"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Settings.routeName);
-            },
-          )
-        ],
-      ),
+      appBar: AppBar(title: Text("Workers List")),
       body: FutureBuilder(
           future: database.getAllWorkerData(widget.tableName),
           builder: (context, snapshot) {
@@ -73,7 +62,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                             setState(() {
                               workerIsBusy = value;
                             });
-                            DB.db.updateData(
+                            MyDatabase.db.updateData(
                                 Worker(
                                   id: worker.id,
                                   name: worker.name,
@@ -89,53 +78,42 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              child: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () async {
-                                  bool result = await Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditWorkerDataPage(
-                                                  id: this
-                                                      .workersList[index]
-                                                      .id,
-                                                  name: this
-                                                      .workersList[index]
-                                                      .name,
-                                                  phoneNum: this
-                                                      .workersList[index]
-                                                      .phoneNum,
-                                                  dateTime: this
-                                                      .workersList[index]
-                                                      .dateTime,
-                                                  tableName: widget.tableName,
-                                                  isBusy: this
-                                                      .workersList[index]
-                                                      .isBusy)));
-                                  if (result == true) {
-                                    updateListView();
-                                  }
-                                },
-                                color: Theme.of(context).accentColor,
-                              ),
+                            MaterialButton(
+                              child: Text("Edit"),
+                              onPressed: () async {
+                                bool result = await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditWorkerDataPage(
+                                                id: this.workersList[index].id,
+                                                name: this
+                                                    .workersList[index]
+                                                    .name,
+                                                phoneNum: this
+                                                    .workersList[index]
+                                                    .phoneNum,
+                                                dateTime: this
+                                                    .workersList[index]
+                                                    .dateTime,
+                                                tableName: widget.tableName,
+                                                isBusy: this
+                                                    .workersList[index]
+                                                    .isBusy)));
+                                if (result == true) {
+                                  updateContent();
+                                }
+                              },
+                              color: Theme.of(context).accentColor,
                             ),
                             const SizedBox(width: 10),
-                            CircleAvatar(
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              child: IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  database.deleteData(
-                                      this.workersList[index].id,
-                                      widget.tableName);
-                                  updateListView();
-                                },
-                                color: Theme.of(context).primaryColor,
-                              ),
+                            MaterialButton(
+                              child: Text('Delete'),
+                              onPressed: () {
+                                database.deleteData(this.workersList[index].id,
+                                    widget.tableName);
+                                updateContent();
+                              },
+                              color: Theme.of(context).primaryColor,
                             ),
                           ],
                         ),
@@ -157,7 +135,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
               builder: (context) =>
                   AddWorkerDataPage(tableName: widget.tableName)));
           if (backResult == true) {
-            updateListView();
+            updateContent();
             // await notelist();
           }
         },
@@ -165,7 +143,7 @@ class _ShowWorkersListState extends State<ShowWorkersList> {
     );
   }
 
-  updateListView() {
+  updateContent() {
     final Future<Database> futureDb = database.initDB();
     futureDb.then((value) {
       Future<List<Worker>> workersListFuture =

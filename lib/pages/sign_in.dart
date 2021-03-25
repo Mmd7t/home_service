@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/inherited_widgets/initial_page_changer.dart';
+import 'package:home_service/initial_page_changer.dart';
 
 import '../constants.dart';
-import '../db/db.dart';
+import '../database.dart';
 import '../models/user.dart';
 import 'home.dart';
 
@@ -41,9 +41,15 @@ class _SignInPageState extends State<SignInPage> {
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
+// name text field
                     TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Name',
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 18),
+                        filled: true,
+                        fillColor:
+                            Theme.of(context).primaryColor.withOpacity(0.2),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -59,9 +65,15 @@ class _SignInPageState extends State<SignInPage> {
                       },
                     ),
                     const SizedBox(height: 10),
+// email text field
                     TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Email',
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 18),
+                        filled: true,
+                        fillColor:
+                            Theme.of(context).primaryColor.withOpacity(0.2),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -79,10 +91,16 @@ class _SignInPageState extends State<SignInPage> {
                       },
                     ),
                     const SizedBox(height: 10),
+// password text field
                     TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 18),
+                        filled: true,
+                        fillColor:
+                            Theme.of(context).primaryColor.withOpacity(0.2),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -103,7 +121,7 @@ class _SignInPageState extends State<SignInPage> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: MaterialButton(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 16),
+                            horizontal: 30, vertical: 16),
                         child: Text(
                           'Sign up',
                           style: Theme.of(context)
@@ -115,15 +133,15 @@ class _SignInPageState extends State<SignInPage> {
                         onPressed: () async {
                           if (formState.currentState.validate()) {
                             formState.currentState.save();
-                            await DB.db.insertData(
+                            await MyDatabase.db.insertData(
                                 User(
                                     name: name,
                                     email: email,
                                     password: password),
                                 userTable);
+                            InitialPageController.of(context).setTheme(1);
                             Navigator.of(context)
                                 .pushReplacementNamed(Home.routeName);
-                            InitialPageController.of(context).setTheme(1);
                           }
                         },
                       ),

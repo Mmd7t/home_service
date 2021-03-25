@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/components/common_container.dart';
-import 'package:home_service/pages/settings.dart';
+import 'package:home_service/common_container.dart';
 import 'package:home_service/pages/user_pages/show_workers_data.dart';
 
 import '../../constants.dart';
@@ -10,17 +9,7 @@ class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("User Home"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Settings.routeName);
-            },
-          )
-        ],
-      ),
+      appBar: AppBar(title: Text("User Home")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

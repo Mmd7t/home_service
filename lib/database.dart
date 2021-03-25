@@ -2,20 +2,17 @@ import 'package:home_service/models/worker.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../constants.dart';
-import '../constants.dart';
-import '../models/user.dart';
+import 'constants.dart';
+import 'models/user.dart';
 
-class DB {
-  DB._();
-  static final DB db = DB._();
+class MyDatabase {
+  MyDatabase._();
+  static final MyDatabase db = MyDatabase._();
 
   static Database _database;
 
   Future<Database> get database async {
     if (_database != null) return _database;
-
-    // if _database is null we instantiate it
     _database = await initDB();
     return _database;
   }
@@ -26,7 +23,7 @@ class DB {
       path,
       version: 1,
       onCreate: (db, version) async {
-/*------------------------------------  Kahraba2y DB Table  ------------------------------------*/
+// Kahraba2y Table
         await db.execute('''
             CREATE TABLE $kahrba2yTable(
               id INTEGER PRIMARY KEY,
@@ -35,7 +32,7 @@ class DB {
               dateTime TEXT,
               isBusy INTEGER)
             ''');
-/*------------------------------------  Sabbak DB Table  ------------------------------------*/
+// Sabbak Table
         await db.execute('''
             CREATE TABLE $sabbakTable(
               id INTEGER PRIMARY KEY,
@@ -44,7 +41,7 @@ class DB {
               dateTime TEXT
                isBusy INTEGER)
             ''');
-/*------------------------------------  Naggar DB Table  ------------------------------------*/
+// Naggar Table
         await db.execute('''
             CREATE TABLE $naggarTable(
              id INTEGER PRIMARY KEY,
@@ -53,7 +50,7 @@ class DB {
               dateTime TEXT
                isBusy INTEGER)
             ''');
-/*------------------------------------  Delivery DB Table  ------------------------------------*/
+// Delivery Table
         await db.execute('''
             CREATE TABLE $deliveryTable(
              id INTEGER PRIMARY KEY,
@@ -62,7 +59,7 @@ class DB {
               dateTime TEXT
                isBusy INTEGER)
             ''');
-/*------------------------------------  Delivery DB Table  ------------------------------------*/
+// user table
         await db.execute('''
             CREATE TABLE $userTable(
              id INTEGER PRIMARY KEY,
@@ -74,15 +71,11 @@ class DB {
     );
   }
 
-  /*-----------------------  Insert into Rent DB Table ---------------------------*/
-
   insertData(data, tableName) async {
     final db = await database;
     var res = await db.insert(tableName, data.toMap());
     return res;
   }
-
-  /*-----------------------  Read from Rent DB Table  ---------------------------*/
 
   Future<List<Worker>> getAllWorkerData(tableName) async {
     final db = await database;
@@ -100,19 +93,15 @@ class DB {
     return list;
   }
 
-  /*-----------------------  Update Object in Rent DB Table  ---------------------------*/
+  deleteData(int id, tableName) async {
+    final db = await database;
+    db.delete(tableName, where: "id = ?", whereArgs: [id]);
+  }
 
   updateData(data, tableName) async {
     final db = await database;
     var res = await db
         .update(tableName, data.toMap(), where: "id = ?", whereArgs: [data.id]);
     return res;
-  }
-
-  /*-----------------------  Delete Object from Rent DB Table  ---------------------------*/
-
-  deleteData(int id, tableName) async {
-    final db = await database;
-    db.delete(tableName, where: "id = ?", whereArgs: [id]);
   }
 }

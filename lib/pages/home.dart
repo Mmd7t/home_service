@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/components/common_container.dart';
+import 'package:home_service/common_container.dart';
 import 'package:home_service/pages/user_pages/user_home_page.dart';
 import 'package:home_service/pages/worker_pages/workers_home.dart';
 
@@ -12,14 +12,6 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home Services"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Settings.routeName);
-            },
-          )
-        ],
       ),
       body: Center(
         child: Column(
@@ -40,6 +32,12 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.settings),
+        onPressed: () {
+          Navigator.of(context).pushNamed(Settings.routeName);
+        },
       ),
     );
   }

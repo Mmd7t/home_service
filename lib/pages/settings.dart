@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:home_service/inherited_widgets/initial_page_changer.dart';
-import 'package:home_service/inherited_widgets/theme_changer.dart';
+import 'package:home_service/initial_page_changer.dart';
 import 'package:home_service/pages/sign_in.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../constants.dart';
-import '../db/db.dart';
-import '../models/user.dart';
+import '../database.dart';
 import '../models/user.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   static const String routeName = 'settings';
 
   @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  MyDatabase database = MyDatabase.db;
+  int count = 0;
+  List<User> userData;
+  @override
   Widget build(BuildContext context) {
-    var themeController = ThemeController.of(context);
+    if (userData == null) {
+      userData = [];
+      updateContent();
+    }
     return Scaffold(
       appBar: new AppBar(
-        title: Text('theme switcher'),
+        title: Text('Settings'),
       ),
       body: Container(
         padding: EdgeInsets.all(8),
@@ -25,7 +35,7 @@ class Settings extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FutureBuilder(
-                future: DB.db.getAllUserData(),
+                future: MyDatabase.db.getAllUserData(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
@@ -50,27 +60,12 @@ class Settings extends StatelessWidget {
               ),
               SizedBox(height: 35),
               FloatingActionButton.extended(
-                heroTag: "light",
-                label: Text('Light Theme'),
-                onPressed: () {
-                  themeController.setTheme('light');
-                },
-              ),
-              SizedBox(height: 10),
-              FloatingActionButton.extended(
-                heroTag: "dark",
-                label: Text('Dark Theme'),
-                onPressed: () {
-                  themeController.setTheme('dark');
-                },
-              ),
-              SizedBox(height: 10),
-              FloatingActionButton.extended(
                 heroTag: "logout",
                 label: Text('Logout'),
                 onPressed: () async {
                   InitialPageController.of(context).setTheme(0);
-                  DB.db.deleteData(User().id, userTable);
+                  await MyDatabase.db
+                      .deleteData(this.userData[0].id, userTable);
                   Navigator.of(context).pop();
                   Navigator.of(context)
                       .pushReplacementNamed(SignInPage.routeName);
@@ -81,5 +76,18 @@ class Settings extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  updateContent() {
+    final Future<Database> futureDb = database.initDB();
+    futureDb.then((value) {
+      Future<List<User>> userDataFuture = database.getAllUserData();
+      userDataFuture.then((value) {
+        setState(() {
+          this.userData = value;
+          this.count = value.length;
+        });
+      });
+    });
   }
 }
