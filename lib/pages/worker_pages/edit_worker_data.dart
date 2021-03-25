@@ -43,48 +43,12 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Edit Data",
+          "Edit Worker",
           style: Theme.of(context).textTheme.headline5.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).primaryColor,
               ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: Theme.of(context).accentColor,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        actions: [
-          IconButton(
-            color: Theme.of(context).accentColor,
-            icon: const Icon(Icons.cancel_outlined),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          IconButton(
-            color: Colors.blueAccent,
-            icon: const Icon(Icons.check),
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                await DB.db.updateWorkerData(
-                    Worker(
-                      id: widget.id,
-                      name: nameController.text,
-                      dateTime: dateTimeController.text,
-                      phoneNum: phoneNumController.text,
-                      isBusy: widget.isBusy,
-                    ),
-                    widget.tableName);
-                Navigator.pop(context, true);
-              }
-            },
-          ),
-        ],
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -113,6 +77,33 @@ class _EditWorkerDataPageState extends State<EditWorkerDataPage> {
                   CommonTextFormField(
                     controller: dateTimeController,
                     hintText: 'Date Time',
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Exit"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            await DB.db.updateWorkerData(
+                                Worker(
+                                  id: widget.id,
+                                  name: nameController.text,
+                                  dateTime: dateTimeController.text,
+                                  phoneNum: phoneNumController.text,
+                                  isBusy: widget.isBusy,
+                                ),
+                                widget.tableName);
+                            Navigator.pop(context, true);
+                          }
+                        },
+                        child: Text("Save"),
+                      ),
+                    ],
                   ),
                 ],
               ),
